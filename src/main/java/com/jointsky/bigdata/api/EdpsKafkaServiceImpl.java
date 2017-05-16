@@ -19,9 +19,6 @@ public class EdpsKafkaServiceImpl implements EdpsKafkaService {
     private static PropertiesLoader loader = new PropertiesLoader("kafka.properties");
     private static final EdpsKafkaService edpsKafkaService= new EdpsKafkaServiceImpl();
 
-    public void sendData(String message){
-
-    }
 
     @Override
     public void establishConnect() throws Exception {
