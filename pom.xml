@@ -27,13 +27,10 @@ limitations under the License.
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.1.9.RELEASE</spring.version>
+		<common.version>2.4</common.version>
 	</properties>
 
-	<scm>
-		<connection>scm:git:https://github.com/blackberry/Krackle.git</connection>
-		<developerConnection>scm:git:https://github.com/blackberry/Krackle.git</developerConnection>
-		<url>https://github.com/blackberry/Krackle</url>
-	</scm>
 
 	<dependencies>
 
@@ -42,12 +39,17 @@ limitations under the License.
 			<artifactId>snappy-java</artifactId>
 			<version>1.1.1.7</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${common.version}</version>
+		</dependency>
 
-		<!--<dependency>-->
-			<!--<groupId>com.blackberry.bdp.common</groupId>-->
-			<!--<artifactId>bdp-common</artifactId>-->
-			<!--<version>0.5.2</version>-->
-		<!--</dependency>-->
 
 		<!-- Testing dependencies -->
 		<dependency>
@@ -161,7 +163,6 @@ limitations under the License.
 						</manifest>
 						<manifestEntries>
 							<Build-Info>${buildNumber}</Build-Info>
-							<!--<SCM-Branch>${scmBranch}</SCM-Branch>-->
 						</manifestEntries>
 					</archive>
 				</configuration>
