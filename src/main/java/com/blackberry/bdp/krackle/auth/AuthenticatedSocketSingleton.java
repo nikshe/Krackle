@@ -89,10 +89,10 @@ public class AuthenticatedSocketSingleton {
 			Socket socket = new Socket(host, port);
 			return build(socket);
 		} catch (IOException | AuthenticationException e) {
-			LOG.error("an {} exception occured {}: ",
-				 e.getClass().getCanonicalName(),
-				 e.getMessage(),
-				 e);
+//			LOG.error("an {} exception occured {}: ",
+//					e.getClass().getCanonicalName(),
+//					e.getMessage(),
+//					e);
 			throw new AuthenticationException(
 				 String.format("failed to a authenticate %s", e.getMessage()));
 		}
@@ -104,10 +104,10 @@ public class AuthenticatedSocketSingleton {
 			Socket socket = new Socket(hostname, port);
 			return build(socket);
 		} catch (IOException | AuthenticationException e) {
-			LOG.error("an {} exception occured {}: ",
-				 e.getClass().getCanonicalName(),
-				 e.getMessage(),
-				 e);
+//			LOG.error("an {} exception occured {}: ",
+//				 e.getClass().getCanonicalName(),
+//				 e.getMessage(),
+//				 e);
 			throw new AuthenticationException(
 				 String.format("failed to a authenticate %s", e.getMessage()));
 		}

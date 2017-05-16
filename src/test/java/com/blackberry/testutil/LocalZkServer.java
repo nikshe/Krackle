@@ -56,7 +56,7 @@ public class LocalZkServer {
 
 		server = new ZooKeeperServer(dir, dir, tickTime);
 
-    // The class that we need changed name between CDH3 and CDH4, so let's
+		// The class that we need changed name between CDH3 and CDH4, so let's
 		// check
 		// for the right version here.
 		try {
@@ -93,8 +93,7 @@ public class LocalZkServer {
 		}
 	}
 
-	public void shutdown() throws IllegalArgumentException,
-		 IllegalAccessException, InvocationTargetException, SecurityException,
+	public void shutdown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException,
 		 NoSuchMethodException, IOException {
 		server.shutdown();
 

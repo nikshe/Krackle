@@ -205,7 +205,7 @@ public class MetaData {
 				String host = readString(responseBuffer);
 				int port = responseBuffer.getInt();
 				metadata.getBrokers().put(nodeId, new Broker(nodeId, host, port));
-				LOG.debug("Broker {} @ {}:{}", nodeId, host, port);
+//				LOG.debug("Broker {} @ {}:{}", nodeId, host, port);
 			}
 
 			// Load the topics
@@ -223,8 +223,8 @@ public class MetaData {
 					short partError = responseBuffer.getShort();
 					int partId = responseBuffer.getInt();
 					int leaderId = responseBuffer.getInt();
-					LOG.debug("    Partition ID={}, Leader={} (Error={})", partId,
-						 leaderId, partError);
+//					LOG.debug("    Partition ID={}, Leader={} (Error={})", partId,
+//						 leaderId, partError);
 
 					Partition part = new Partition(partId);
 					part.setLeader(metadata.brokers.get(leaderId));

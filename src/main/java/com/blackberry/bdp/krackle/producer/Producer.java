@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import com.blackberry.bdp.krackle.Constants;
 import com.blackberry.bdp.krackle.KafkaError;
-import com.blackberry.bdp.common.jmx.MetricRegistrySingleton;
+//import com.blackberry.bdp.common.jmx.MetricRegistrySingleton;
 import com.blackberry.bdp.krackle.auth.AuthenticatedSocketSingleton;
 import com.blackberry.bdp.krackle.exceptions.AuthenticationException;
 import com.blackberry.bdp.krackle.compression.Compressor;
@@ -39,11 +39,11 @@ import com.blackberry.bdp.krackle.compression.SnappyCompressor;
 import com.blackberry.bdp.krackle.meta.Broker;
 import com.blackberry.bdp.krackle.meta.MetaData;
 import com.blackberry.bdp.krackle.meta.Topic;
-import com.codahale.metrics.Gauge;
-import com.codahale.metrics.Meter;
-import com.codahale.metrics.Metric;
-import com.codahale.metrics.MetricFilter;
-import com.codahale.metrics.MetricRegistry;
+//import com.codahale.metrics.Gauge;
+//import com.codahale.metrics.Meter;
+//import com.codahale.metrics.Metric;
+//import com.codahale.metrics.MetricFilter;
+//import com.codahale.metrics.MetricRegistry;
 import java.net.InetSocketAddress;
 
 /**
@@ -112,15 +112,15 @@ public class Producer {
 
 	private final ScheduledExecutorService scheduledExecutor = Executors.newSingleThreadScheduledExecutor();
 
-	private final MetricRegistry metrics;
-	private Meter mReceived = null;
-	private Meter mReceivedTotal = null;
-	private Meter mSent = null;
-	private Meter mSentTotal = null;
-	private Meter mDroppedQueueFull = null;
-	private Meter mDroppedQueueFullTotal = null;
-	private Meter mDroppedSendFail = null;
-	private Meter mDroppedSendFailTotal = null;
+//	private final MetricRegistry metrics;
+//	private Meter mReceived = null;
+//	private Meter mReceivedTotal = null;
+//	private Meter mSent = null;
+//	private Meter mSentTotal = null;
+//	private Meter mDroppedQueueFull = null;
+//	private Meter mDroppedQueueFullTotal = null;
+//	private Meter mDroppedSendFail = null;
+//	private Meter mDroppedSendFailTotal = null;
 
 	private String freeBufferGaugeName;
 
@@ -131,10 +131,9 @@ public class Producer {
 	 * @param clientId client id to send to the brokers
 	 * @param topic topic to produce on
 	 * @param key key to use for partitioning
-	 * @param metrics MetricRegistry instance to use for metrics.
 	 * @throws Exception
 	 */
-	public Producer(ProducerConfiguration conf, String clientId, String topic, String key, MetricRegistry metrics) throws Exception {
+	public Producer(ProducerConfiguration conf, String clientId, String topic, String key) throws Exception {
 		LOG.info("Creating new producer for topic {}, key {}", topic, key);
 
 		this.conf = conf;
@@ -157,15 +156,15 @@ public class Producer {
 		maxRetries = conf.getMessageSendMaxRetries();
 		retryBackoffExponent = conf.getRetryBackoffExponent();
 
-		if (metrics == null) {
-			this.metrics = MetricRegistrySingleton.getInstance().getMetricsRegistry();
-			MetricRegistrySingleton.getInstance().enableJmx();
-			MetricRegistrySingleton.getInstance().enableConsole();
-		} else {
-			this.metrics = metrics;
-		}
+//		if (metrics == null) {
+//			this.metrics = MetricRegistrySingleton.getInstance().getMetricsRegistry();
+//			MetricRegistrySingleton.getInstance().enableJmx();
+//			MetricRegistrySingleton.getInstance().enableConsole();
+//		} else {
+//			this.metrics = metrics;
+//		}
 
-		initializeMetrics();
+//		initializeMetrics();
 		configure();
 
 		// Start a periodic sender to ensure that things get sent from time to time.
@@ -186,7 +185,7 @@ public class Producer {
 			sender = new Sender();
 			Thread senderThread = new Thread(sender);
 			senderThread.setDaemon(false);
-			LOG.debug("[{}] Creating Sender Thread-{} ({})", topicString, i, senderThread.toString());
+//			LOG.debug("[{}] Creating Sender Thread-{} ({})", topicString, i, senderThread.toString());
 			senderThread.setName("Sender-Thread-" + i + "-" + senderThread.getId());
 			senderThread.start();
 			senderThreads.add(senderThread);
@@ -224,21 +223,21 @@ public class Producer {
 		}, 1, 1, TimeUnit.MINUTES);
 	}
 
-	private void initializeMetrics() {
-		String name = topicString;
-
-		mReceived = this.metrics.meter("krackle:producer:topics:" + name + ":messages received");
-		mReceivedTotal = this.metrics.meter("krackle:producer:total:messages received");
-
-		mSent = this.metrics.meter("krackle:producer:topics:" + name + ":messages sent");
-		mSentTotal = this.metrics.meter("krackle:producer:total:messages sent");
-
-		mDroppedQueueFull = this.metrics.meter("krackle:producer:topics:" + name + ":messages dropped (queue full)");
-		mDroppedQueueFullTotal = this.metrics.meter("krackle:producer:total:messages dropped (queue full)");
-
-		mDroppedSendFail = this.metrics.meter("krackle:producer:topics:" + name + ":messages dropped (send failure)");
-		mDroppedSendFailTotal = this.metrics.meter("krackle:producer:total:messages dropped (send failure)");
-	}
+//	private void initializeMetrics() {
+//		String name = topicString;
+//
+//		mReceived = this.metrics.meter("krackle:producer:topics:" + name + ":messages received");
+//		mReceivedTotal = this.metrics.meter("krackle:producer:total:messages received");
+//
+//		mSent = this.metrics.meter("krackle:producer:topics:" + name + ":messages sent");
+//		mSentTotal = this.metrics.meter("krackle:producer:total:messages sent");
+//
+//		mDroppedQueueFull = this.metrics.meter("krackle:producer:topics:" + name + ":messages dropped (queue full)");
+//		mDroppedQueueFullTotal = this.metrics.meter("krackle:producer:total:messages dropped (queue full)");
+//
+//		mDroppedSendFail = this.metrics.meter("krackle:producer:topics:" + name + ":messages dropped (send failure)");
+//		mDroppedSendFailTotal = this.metrics.meter("krackle:producer:total:messages dropped (send failure)");
+//	}
 
 	private void configure() throws Exception {
 		requiredAcks = conf.getRequestRequiredAcks();
@@ -260,17 +259,17 @@ public class Producer {
 						sharedBuffers.add(new MessageSetBuffer(this, messageBufferSize));
 					}
 
-					MetricRegistrySingleton
-						 .getInstance()
-						 .getMetricsRegistry()
-						 .register("krackle:producer:shared free buffers",
-							  new Gauge<Integer>() {
-								  @Override
-								  public Integer getValue() {
-									  return sharedBuffers.size();
-								  }
-
-							  });
+//					MetricRegistrySingleton
+//						 .getInstance()
+//						 .getMetricsRegistry()
+//						 .register("krackle:producer:shared free buffers",
+//							  new Gauge<Integer>() {
+//								  @Override
+//								  public Integer getValue() {
+//									  return sharedBuffers.size();
+//								  }
+//
+//							  });
 				}
 			}
 			freeBuffers = sharedBuffers;
@@ -283,25 +282,25 @@ public class Producer {
 
 			freeBufferGaugeName = "krackle:producer:topics:" + topicString + ":free buffers";
 
-			if (MetricRegistrySingleton.getInstance().getMetricsRegistry()
-				 .getGauges(new MetricFilter() {
-					 @Override
-					 public boolean matches(String s, Metric m) {
-						 return s.equals(freeBufferGaugeName);
-					 }
-
-				 }).size() > 0) {
-				LOG.warn("Gauge already exists for '{}'", freeBufferGaugeName);
-			} else {
-				MetricRegistrySingleton.getInstance().getMetricsRegistry()
-					 .register(freeBufferGaugeName, new Gauge<Integer>() {
-						 @Override
-						 public Integer getValue() {
-							 return freeBuffers.size();
-						 }
-
-					 });
-			}
+//			if (MetricRegistrySingleton.getInstance().getMetricsRegistry()
+//				 .getGauges(new MetricFilter() {
+//					 @Override
+//					 public boolean matches(String s, Metric m) {
+//						 return s.equals(freeBufferGaugeName);
+//					 }
+//
+//				 }).size() > 0) {
+//				LOG.warn("Gauge already exists for '{}'", freeBufferGaugeName);
+//			} else {
+//				MetricRegistrySingleton.getInstance().getMetricsRegistry()
+//					 .register(freeBufferGaugeName, new Gauge<Integer>() {
+//						 @Override
+//						 public Integer getValue() {
+//							 return freeBuffers.size();
+//						 }
+//
+//					 });
+//			}
 		}
 
 		buffersToSend = new ArrayBlockingQueue<>(numBuffers);
@@ -338,8 +337,8 @@ public class Producer {
 			}
 
 			if (activeMessageSetBuffer == null) {
-				mDroppedQueueFull.mark();
-				mDroppedQueueFullTotal.mark();
+//				mDroppedQueueFull.mark();
+//				mDroppedQueueFullTotal.mark();
 				return;
 			}
 		}
@@ -353,8 +352,8 @@ public class Producer {
 			return;
 		}
 
-		mReceived.mark();
-		mReceivedTotal.mark();
+//		mReceived.mark();
+//		mReceivedTotal.mark();
 
 		if (activeMessageSetBuffer.getBuffer().remaining() < length + keyLength + 26) {
 			buffersToSend.put(activeMessageSetBuffer);
@@ -367,8 +366,8 @@ public class Producer {
 			}
 
 			if (activeMessageSetBuffer == null) {
-				mDroppedQueueFull.mark();
-				mDroppedQueueFullTotal.mark();
+//				mDroppedQueueFull.mark();
+//				mDroppedQueueFullTotal.mark();
 				return;
 			}
 		}
@@ -430,7 +429,7 @@ public class Producer {
 		}
 
 		if (conf.isUseSharedBuffers() == false) {
-			MetricRegistrySingleton.getInstance().getMetricsRegistry().remove(freeBufferGaugeName);
+//			MetricRegistrySingleton.getInstance().getMetricsRegistry().remove(freeBufferGaugeName);
 		}
 	}
 
@@ -535,10 +534,10 @@ public class Producer {
 			}
 			partition = (Math.abs(keyString.hashCode()) + partitionModifier) % topic.getNumPartitions();
 
-			LOG.info("rotated onto partition {}-{} (from {} available partitions)",
-				 topic.getName(),
-				 partition,
-				 topic.getNumPartitions());
+//			LOG.info("rotated onto partition {}-{} (from {} available partitions)",
+//				 topic.getName(),
+//				 partition,
+//				 topic.getNumPartitions());
 
 			broker = topic.getPartition(partition).getLeader();
 
@@ -690,7 +689,7 @@ public class Producer {
 							toSendBuffer.putInt(partitionPosition, partition);
 						}
 
-						LOG.debug("[{}] Sender Thread-{} ({}) Sending Block with CorrelationId: {} ClientId: {} Socket: {}", topicString, senderThreads.indexOf(Thread.currentThread()), Thread.currentThread().getId(), correlationId, clientIdString, socket.toString());
+//						LOG.debug("[{}] Sender Thread-{} ({}) Sending Block with CorrelationId: {} ClientId: {} Socket: {}", topicString, senderThreads.indexOf(Thread.currentThread()), Thread.currentThread().getId(), correlationId, clientIdString, socket.toString());
 						// Send request
 						out.write(toSendBytes, 0, toSendBuffer.position());
 
@@ -737,8 +736,8 @@ public class Producer {
 								in.read(responseBytes, 0, responseBytes.length);
 							}
 						}
-						mSent.mark(messageSetBuffer.getBatchSize());
-						mSentTotal.mark(messageSetBuffer.getBatchSize());
+//						mSent.mark(messageSetBuffer.getBatchSize());
+//						mSentTotal.mark(messageSetBuffer.getBatchSize());
 
 						break;
 					} catch (Throwable t) {
@@ -758,7 +757,7 @@ public class Producer {
 						retry++;
 
 						if (retry <= maxRetries) {
-							LOG.warn("Request failed. Retrying {} more times for {}.", maxRetries - retry + 1, topicString, t);
+//							LOG.warn("Request failed. Retrying {} more times for {}.", maxRetries - retry + 1, topicString, t);
 							try {
 								Thread.sleep(retryBackoffMs);
 								retryBackoffMs = retryBackoffMs * retryBackoffExponent;
@@ -768,8 +767,8 @@ public class Producer {
 							}
 						} else {
 							LOG.error("Request failed. No more retries (data lost) for {}.", topicString, t);
-							mDroppedSendFail.mark(messageSetBuffer.getBatchSize());
-							mDroppedSendFailTotal.mark(messageSetBuffer.getBatchSize());
+//							mDroppedSendFail.mark(messageSetBuffer.getBatchSize());
+//							mDroppedSendFailTotal.mark(messageSetBuffer.getBatchSize());
 						}
 
 					}
@@ -788,8 +787,8 @@ public class Producer {
 				}
 			} catch (Throwable t) {
 				LOG.error("Unexpected exception: {}", t);
-				mDroppedSendFail.mark(messageSetBuffer.getBatchSize());
-				mDroppedSendFailTotal.mark(messageSetBuffer.getBatchSize());
+//				mDroppedSendFail.mark(messageSetBuffer.getBatchSize());
+//				mDroppedSendFailTotal.mark(messageSetBuffer.getBatchSize());
 			}
 		}
 
@@ -805,14 +804,14 @@ public class Producer {
 
 			LOG.info("Trying to create a metric named: {}", metricName);
 
-			MetricRegistrySingleton.getInstance().getMetricsRegistry().register(metricName,
-				 new Gauge<Integer>() {
-					 @Override
-					 public Integer getValue() {
-						 return lastLatency;
-					 }
-
-				 });
+//			MetricRegistrySingleton.getInstance().getMetricsRegistry().register(metricName,
+//				 new Gauge<Integer>() {
+//					 @Override
+//					 public Integer getValue() {
+//						 return lastLatency;
+//					 }
+//
+//				 });
 
 			while (true) {
 				try {

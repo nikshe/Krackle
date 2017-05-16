@@ -141,8 +141,8 @@ public class SaslPlainTextAuthenticator implements Authenticator{
 				@Override
 				public SaslClient run() throws SaslException {
 					String[] mechs = {"GSSAPI"};
-					LOG.info("Creating SaslClient: client={}; service={}; serviceHostname={}; mechs={}",
-						 clientPrincipal, servicePrincipal, hostname, Arrays.toString(mechs));
+//					LOG.info("Creating SaslClient: client={}; service={}; serviceHostname={}; mechs={}",
+//						 clientPrincipal, servicePrincipal, hostname, Arrays.toString(mechs));
 					return Sasl.createSaslClient(mechs, clientPrincipal, servicePrincipal, hostname, null,
 						 new ClientCallbackHandler());
 				}

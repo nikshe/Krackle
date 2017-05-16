@@ -406,7 +406,7 @@ public class ProducerConfiguration {
 
 		if (false == (propNameNumBuffers.equals(defaultPropNameNumBuffers) && propNameBufferSize.equals(defaultPropNameBufferSize))) {
 			useSharedBuffers = false;
-			LOG.warn("{} = {}, and {} = {}", propNameBufferSize, defaultPropNameBufferSize, propNameNumBuffers, defaultPropNameNumBuffers);
+//			LOG.warn("{} = {}, and {} = {}", propNameBufferSize, defaultPropNameBufferSize, propNameNumBuffers, defaultPropNameNumBuffers);
 			LOG.warn("{} forcing inherently private buffers as topic specific configuration exists", getTopicName());
 		}
 
