@@ -47,8 +47,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 
+/**
+ * kafka 消息发送测试
+ */
 public class EdpsKafkaClientTest {
-
 	static EdpsKafkaService edpsKafkaService;
 
 	static List<MessageData> logs;
