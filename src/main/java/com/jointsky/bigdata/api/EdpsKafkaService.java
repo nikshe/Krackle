@@ -4,6 +4,13 @@ import java.util.List;
 
 /**
  * 企业级KAFKA数据服务
+ * API使用说明:
+ *          1. 创建对象EdpsKafkaService edpsKafkaService = new EdpsKafkaServiceImpl();
+ *          2. 建立连接 edpsKafkaService.establishConnect();
+ *          3. 发送数据 数据是由消息封装体来构成,包括要发送的消息和消息主题 topic
+ *              提供了发送单条和批量多条接口 send(MessageData messageData) 和 send(List<MessageData> messageDataList)
+ *          4. 连接关闭,释放资源 edpsKafkaService.closeConnect()
+ *
  * Created by on 2017/5/16.
  */
 public interface EdpsKafkaService {
