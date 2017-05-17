@@ -15,37 +15,17 @@
  */
 package com.jointsky.bigdata.api.test;
 
-import com.blackberry.bdp.krackle.consumer.Consumer;
-import com.blackberry.bdp.krackle.consumer.ConsumerConfiguration;
-import com.blackberry.testutil.LocalKafkaServer;
+
 import com.jointsky.bigdata.api.EdpsKafkaService;
 import com.jointsky.bigdata.api.EdpsKafkaServiceImpl;
 import com.jointsky.bigdata.api.MessageData;
-import kafka.admin.AdminUtils;
-import kafka.admin.RackAwareMode;
-import kafka.consumer.ConsumerConfig;
-import kafka.consumer.ConsumerIterator;
-import kafka.consumer.KafkaStream;
-import kafka.javaapi.consumer.ConsumerConnector;
-import kafka.producer.KeyedMessage;
-import kafka.producer.ProducerConfig;
-import kafka.utils.ZKStringSerializer$;
-import kafka.utils.ZkUtils;
-import org.I0Itec.zkclient.ZkClient;
-import org.I0Itec.zkclient.ZkConnection;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.clients.consumer.KafkaConsumer;
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.errors.WakeupException;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
-import static org.junit.Assert.assertEquals;
 
 /**
  * kafka 消息发送测试
