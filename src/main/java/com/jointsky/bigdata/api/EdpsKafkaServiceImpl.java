@@ -17,19 +17,18 @@ public class EdpsKafkaServiceImpl implements EdpsKafkaService {
     private Logger logger = LoggerFactory.getLogger(EdpsKafkaServiceImpl.class);
     private static KafkaProducer producer = null;
     private static PropertiesLoader loader = new PropertiesLoader("kafka.properties");
-    private static final EdpsKafkaService edpsKafkaService= new EdpsKafkaServiceImpl();
-
 
     @Override
     public void establishConnect() throws Exception {
         Properties producerProps = new Properties();
-        producerProps.setProperty("metadata.broker.list", loader.getProperty("metadata.broker.list"));
+        producerProps.setProperty("bootstrap.servers",loader.getProperty("bootstrap.servers"));
         producerProps.setProperty("compression.codec", loader.getProperty("compression"));
-        producerProps.setProperty("queue.buffering.max.ms", "100");
-        producerProps.setProperty("queue.enqueue.timeout.ms", "-1");
-        producerProps.setProperty("request.required.acks", "1");
-        producerProps.setProperty("producer.type", "async");
-        producerProps.setProperty("serializer.class", "kafka.serializer.StringEncoder");
+        producerProps.setProperty("queue.buffering.max.ms", loader.getProperty("queue.buffering.max.ms"));
+        producerProps.setProperty("queue.enqueue.timeout.ms", loader.getProperty("queue.enqueue.timeout.ms"));
+        producerProps.setProperty("request.required.acks", loader.getProperty("request.required.acks"));
+        producerProps.setProperty("producer.type", loader.getProperty("producer.type"));
+        producerProps.setProperty("key.serializer", loader.getProperty("key.serializer"));
+        producerProps.setProperty("value.serializer", loader.getProperty("value.serializer"));
         producer = new KafkaProducer(producerProps);
     }
 
@@ -37,7 +36,7 @@ public class EdpsKafkaServiceImpl implements EdpsKafkaService {
     public void send(MessageData messageData) throws Exception {
         String topic = messageData.getResourceName();
         String messageStr = messageData.getData();
-        producer.send(new ProducerRecord(topic, messageStr));
+        producer.send(new ProducerRecord<String,String>(topic,messageStr));
     }
 
     @Override
@@ -52,8 +51,4 @@ public class EdpsKafkaServiceImpl implements EdpsKafkaService {
         producer.close();
     }
 
-    @Override
-    public EdpsKafkaService getInstance() {
-        return edpsKafkaService;
-    }
 }

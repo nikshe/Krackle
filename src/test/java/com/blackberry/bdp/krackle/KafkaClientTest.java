@@ -199,7 +199,7 @@ public class KafkaClientTest {
 
 			KafkaProducer<String, String> producer = getKafkaProducer(compression);
 			for (String log : logs) {
-				producer.send(new ProducerRecord<String, String>(topic, "mykey", System
+				producer.send(new ProducerRecord(topic, "mykey", System
 						.currentTimeMillis() + " test 123 " + log));
 			}
 

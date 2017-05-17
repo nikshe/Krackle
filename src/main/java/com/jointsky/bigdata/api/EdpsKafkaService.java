@@ -8,7 +8,7 @@ import java.util.List;
  */
 public interface EdpsKafkaService {
     /**
-     * 建立连接,并返回服务实例
+     * 建立连接,设置参数,并返回消息发送服务实例
      * @param
      */
     public void establishConnect() throws  Exception;
@@ -26,13 +26,9 @@ public interface EdpsKafkaService {
     public void send(List<MessageData> messageDataList) throws Exception;
 
     /**
-     * 连接关闭
+     * 连接关闭,释放资源
      */
     public void closeConnect();
 
-    /**
-     * 获取实例
-     * @return
-     */
-    public EdpsKafkaService  getInstance();
+
 }
